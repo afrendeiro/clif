@@ -43,17 +43,22 @@ def clif(function: Callable) -> Callable:
                 if _p is not empty:
                     kwargs[v] = _p
 
+            # if type hint is not available, get type of default argument if available
+
             # parse complex types into a str
 
             args = [f"-{cliarg[0]}", f"--{cliarg}"] if "default" in kwargs else []
-            desc = descriptors[arg]
+            desc = ""  # descriptors[arg]
             parser.add_argument(*args, description=desc, dest=arg, **kwargs)
 
         kwargs = parser.parse_args().__dict__
 
         # parse the simple string arguemnts to their complex types
 
-        function(**kwargs)
+        res = function(**kwargs)
+
+        # If the result is a simple type, print it out to sys.stdout
+        print(res)
 
         sys.exit(0)
 
