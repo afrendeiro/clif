@@ -1,0 +1,9 @@
+pylint
+git-lint
+black[d]
+mypy
+pytest
+
+sphinx
+sphinx-issues
+sphinx-rtd-theme
