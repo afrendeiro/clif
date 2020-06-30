@@ -30,6 +30,8 @@ $ clif clif.demo.add 1 2
 Use the help to see what the parameters and their types are:
 ```bash
 $ clif clif.demo.add -h
+```
+```
 usage: add [-h] a b
 
 Add integers and return the sum.

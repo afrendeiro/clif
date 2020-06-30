@@ -28,3 +28,25 @@ Add integers and return the sum.
 
 :returns: Integer sum.
 """
+
+
+def unnanotated_function(a, b):
+    pass
+
+
+def sum_mix(a: int, b: float):
+    return a + b
+
+
+def brief_docstring(a: int, b: float):
+    """Brief description"""
+    return a + b
+
+
+def brief_docstring_one_param(a: int, b: float):
+    """
+    Brief description
+
+    :param a: Integer to be added.
+    """
+    return a + b

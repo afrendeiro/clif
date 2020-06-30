@@ -1,7 +1,7 @@
 .DEFAULT_GOAL := all
 
 
-NAME="CLIF"
+NAME="clif"
 DOCS_DIR="docs"
 
 

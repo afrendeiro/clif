@@ -18,6 +18,10 @@ from clif.docstring import parse_docstring
 TYPE_REPRS = {"": "", int: "int", float: "float", list: "list", set: "set"}
 
 
+class UnkownType:
+    pass
+
+
 def get_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog=__name__, description=__doc__, add_help=False)
 
@@ -60,8 +64,8 @@ def build_cli(parser, meta) -> argparse.ArgumentParser:
         # add cli option
         args = [f"-{cliarg[0]}", f"--{cliarg}"] if "default" in kwargs else []
         # # add type first
-        desc = kwargs.get("type", str).__name__ + ": "
-        desc += meta["docstring"]["params"][arg]
+        desc = kwargs.get("type", UnkownType).__name__ + ": "
+        desc += meta["docstring"]["params"].get(arg, "")
         parser.add_argument(*args, help=desc, dest=arg, **kwargs)
     return parser
 
@@ -79,7 +83,7 @@ def main() -> int:
         metadata = get_function_metadata(function)
     except TypeError:
         return parser.error("`function` argument points to module and not function.")
-    except ValueError:
+    except (ValueError, AttributeError):
         return parser.error("Cannot find module/function: '" + function_name + "'")
 
     f_parser = build_cli(parser, metadata)
@@ -92,7 +96,8 @@ def main() -> int:
     res = function(**r_args)
 
     # If the result is a simple type, print it out to sys.stdout
-    print(res)
+    if res is not None:
+        print(res)
     return 0
 
 
