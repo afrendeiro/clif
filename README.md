@@ -55,7 +55,7 @@ Another example with more complex types:
 ```python
 from typing import Tuple
 
-def represent_dot(pos: Tuple[float, float], name="point") -> int:
+def represent_dot(pos: Tuple[float, float], name="point") -> str:
     return f"A Point '{name}' with coordinates '{pos[0]} -> {pos[1]}'"
 ```
 

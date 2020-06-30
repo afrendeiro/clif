@@ -1,3 +1,6 @@
+from typing import Tuple
+
+
 def add(a: int, b: int) -> int:
     """
     Add two integers.
@@ -50,3 +53,13 @@ def brief_docstring_one_param(a: int, b: float):
     :param a: Integer to be added.
     """
     return a + b
+
+
+def represent_point(pos: Tuple[float, float], name="point") -> str:
+    """
+    Return 2D point representation.
+
+    :param pos: Tuple with 2D coordinates.
+    :param name: Name of the point.
+    """
+    return f"A Point '{name}' with coordinates '{pos[0]} -> {pos[1]}'"

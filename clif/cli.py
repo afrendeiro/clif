@@ -22,6 +22,9 @@ class UnkownType:
     pass
 
 
+UnkownType.__name__ = "UnknownType"
+
+
 def get_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog=__name__, description=__doc__, add_help=False)
 
@@ -42,7 +45,7 @@ def get_function_metadata(function: Callable) -> Dict:
     return meta
 
 
-def build_cli(parser, meta) -> argparse.ArgumentParser:
+def build_cli(meta) -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog=meta["name"], description=meta["docstring"]["long_description"]
     )
@@ -53,19 +56,24 @@ def build_cli(parser, meta) -> argparse.ArgumentParser:
         for p, v in [("default", "default"), ("annotation", "type")]:
             _p = getattr(param, p)
             if _p is not empty:
-                kwargs[v] = _p
+                meta[v] = kwargs[v] = _p
 
         # check if positional only (this should be taken into account later calling the func)
 
         # if type hint is not available, get type of default argument if available
+        if "type" not in kwargs and "default" in kwargs:
+            kwargs["type"] = type(kwargs["default"])
 
         # parse complex types into a str
 
         # add cli option
         args = [f"-{cliarg[0]}", f"--{cliarg}"] if "default" in kwargs else []
         # # add type first
-        desc = kwargs.get("type", UnkownType).__name__ + ": "
-        desc += meta["docstring"]["params"].get(arg, "")
+        try:
+            desc = kwargs.get("type", UnkownType).__name__
+        except AttributeError:
+            desc = str(kwargs.get("type")).replace("typing.", "")
+        desc += ": " + meta["docstring"]["params"].get(arg, "")
         parser.add_argument(*args, help=desc, dest=arg, **kwargs)
     return parser
 
@@ -86,13 +94,10 @@ def main() -> int:
     except (ValueError, AttributeError):
         return parser.error("Cannot find module/function: '" + function_name + "'")
 
-    f_parser = build_cli(parser, metadata)
+    f_parser = build_cli(metadata)
     r_args = f_parser.parse_args(f_args).__dict__
 
-    # if any([a in r_args for a in ["-h", "--help"]]):
-    #     f_parser.print_help()
-    #     return 1
-    # coherce the
+    # coherce complex args into their appropriate type
     res = function(**r_args)
 
     # If the result is a simple type, print it out to sys.stdout
