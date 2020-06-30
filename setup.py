@@ -39,6 +39,7 @@ setup(
     description="A simple type hint aware package for calling a function from the command-line.",
     long_description=long_description,
     long_description_content_type="text/markdown",
+    entry_points={"console_scripts": ["clif = clif.cli:main",]},
     classifiers=[
         "Programming Language :: Python :: 3 :: Only",
         "Programming Language :: Python :: 3.7",
