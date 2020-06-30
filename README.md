@@ -3,12 +3,9 @@
 Calling a function from the command-line in a type hint-aware manner.
 
 
-> :warning: This package is experimental and not all features are working.
-
-
 ## Quick start
 
-Let's say we have a type-hinted function `add` in [`clif.demo`](clif/clif/demo.py):
+Let's say we have a type-hinted function `add` in [`clif.demo`](clif/demo.py):
 ```python
 def add(a: int, b: int) -> int:
     """
@@ -46,6 +43,10 @@ optional arguments:
 ```
 
 -------
+
+
+> :warning: This package is experimental and not all complex types are implemented yet.
+
 
 Another example with more complex types:
 
