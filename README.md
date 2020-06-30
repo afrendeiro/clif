@@ -11,7 +11,7 @@ def add(a: int, b: int) -> int:
     """
     Add two integers.
 
-    Get the sum of two integers.
+    Add integers and return the sum.
 
     :param a: Integer to be added.
     :param b: Integer to be added.

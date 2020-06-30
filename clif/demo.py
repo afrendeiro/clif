@@ -5,6 +5,7 @@ def add(a: int, b: int) -> int:
     """
     Add two integers.
 
+    Add integers and return the sum.
 
     Parameters
     ----------
